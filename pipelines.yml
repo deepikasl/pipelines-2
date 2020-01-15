@@ -22,8 +22,8 @@ resources:
   - name: be_gitRepo
     type: GitRepo
     configuration:
-      path: sdemo/java-backend
-      gitProvider: sdemo_github
+      path: deepikasl/java-backend
+      gitProvider: deepikaGithub
 
   - name: appl_build_info_output
     type: BuildInfo
@@ -49,8 +49,8 @@ resources:
   - name: fe_gitRepo
     type: GitRepo
     configuration:
-      path: sdemo/vue-frontend
-      gitProvider: sdemo_github
+      path: deepikasl/vue-frontend
+      gitProvider: deepikaGithub
 
   - name: release_bundle
     type: ReleaseBundle

@@ -2,8 +2,8 @@ resources:
   - name: gosvc_gitRepo
     type: GitRepo
     configuration:
-      path: sdemo/go-service
-      gitProvider: sdemo_github
+      path: deepikasl/go-service
+      gitProvider: deepikaGithub
 
   - name: gosvc_build_info
     type: BuildInfo

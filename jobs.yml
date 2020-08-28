@@ -1,0 +1,108 @@
+resources:
+  - name: github_demo
+    type: GitRepo
+    configuration:
+      path: deepikasl/VT2
+      gitProvider: deepikaGithub
+  - name: github_new
+    type: GitRepo
+    configuration:
+      path: deepikasl/VT1
+      gitProvider: deepikaGithub
+  - name: propertyBag
+    type: PropertyBag
+    configuration:
+      foo: bar
+      foo1: bar1
+      foo2: bar2
+  - name: cluster1
+    type: VmCluster
+    configuration:
+      sshKey: sshKey
+      targets:
+        - 1.1.1.1
+        - 2.2.2.2
+        - 3.3.3.3
+  - name: helm
+    type: HelmChart
+    configuration:
+      sourceArtifactory: art
+      repository: helm-local
+      chart: "test"
+      version: "1.0.0"
+  - name: incomingWebhook
+    type: IncomingWebhook
+    configuration:
+      webhookName: testin
+  - name: image
+    type: Image
+    configuration:
+      registry: dockerRegistry
+      imageName: ngnix
+      imageTag: latest
+  - name: cron1
+    type: CronTrigger
+    configuration:
+      interval: '*/2 * * *'
+
+#   - name: github_bbs
+#     type: GitRepo
+#     configuration:
+#       path: ~DEEPIKAB/vt1
+#       gitProvider: deepikaBBS
+#       branches:
+#         include: master
+#   - name: github_test
+#     type: GitRepo
+#     configuration:
+#       path: deepikasl/VT2
+#       gitProvider: test123
+
+pipelines:
+  - name: pipeline_demo
+    steps:          
+      - name: bash_demo
+        type: Bash
+        configuration:
+          inputResources:
+            - name: github_demo
+            - name: github_new
+#             - name: github_bbs
+        execution:
+          onExecute:
+            - echo "executing bash step bash_demo..."
+            - printenv
+            - mkdir runDir && cd runDir && mkdir inDir && cd inDir && mkdir deepDir && cd deepDir && echo "state=$run_number" > run_state.txt && cd ../../../
+            - echo ${run_number}
+            - add_run_files runDir/*/deepDir run_state_dir
+      - name: bash_demo_8
+        type: Bash
+        configuration:
+          inputResources:
+            - name: github_demo
+          inputSteps:
+            - name: bash_demo
+          outputResources:
+            - name: propertyBag
+            - name: cluster1
+            - name: helm
+            - name: incomingWebhook
+        execution:
+          onExecute:
+            - echo "executing bash step bash_demo_1..."
+  - name: pipeline_2
+    steps:
+      - name: bash_demo_9
+        type: Bash
+        configuration:
+          inputResources:
+            - name: github_demo
+#             - name: propertyBag
+#             - name: cluster1
+#             - name: helm
+#             - name: incomingWebhook
+#             - name: image
+#             - name: cron1
+        execution:
+          onExecute:
+            - echo "executing bash step bash_demo_2..."
